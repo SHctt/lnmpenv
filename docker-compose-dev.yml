@@ -7,7 +7,7 @@ services:
     image: rogolezhou/nginx1215
     ports:
       - "${app}:80"
-      - "${php}:81"
+      - "${php}:82"
     depends_on:
       - php
     volumes_from:
