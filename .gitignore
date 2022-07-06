@@ -8,6 +8,7 @@ composer.lock
 .php_cs.cache
 .env
 vendor
+.docker-sync/
 
 php_errors.log
 composer.phar
