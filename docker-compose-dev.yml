@@ -1,6 +1,9 @@
 version: '3'
 networks:
   panel:
+volumes:
+  rogole-unison-sync:
+    external: true
 services:
   web:
     container_name: web
@@ -14,14 +17,14 @@ services:
       - php
     volumes:
       - ./services/nginx:/etc/nginx/conf.d
-      - ./app:/mnt/app
+      - rogole-unison-sync:/mnt/app:nocopy
     networks:
       - panel
   php:
     container_name: php
     image: rogolezhou/php74-fpm:panel
     volumes:
-      - ./app:/mnt/app
+      - rogole-unison-sync:/mnt/app:nocopy
       - /etc/localtime:/etc/localtime
     networks:
       - panel

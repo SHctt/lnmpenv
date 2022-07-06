@@ -1,0 +1,18 @@
+version: '2'
+options:
+  verbose: true
+  unison_image: 'eugenmayer/unison:2.51.3-4.12.0-ARM64'
+  cli_mode: 'auto'
+  compose-file-path: 'docker-compose.yml'
+  compose-dev-file-path: 'docker-compose-dev.yml'
+syncs:
+  rogole-unison-sync:
+    src: './app'
+    sync_prefer: 'default'
+    sync-userid: '33'
+    sync_strategy: 'native_osx'
+    sync_excludes: [
+      '.gitignore',
+      '.git/',
+      'DS_Store',
+      ]
