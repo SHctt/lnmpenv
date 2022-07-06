@@ -1,0 +1,51 @@
+version: '3'
+networks:
+  panel:
+services:
+  web:
+    container_name: web
+    image: rogolezhou/nginx1215
+    ports:
+      - "${app}:80"
+      - "${php}:81"
+    depends_on:
+      - php
+    volumes_from:
+      - php
+    volumes:
+      - ./services/nginx:/etc/nginx/conf.d
+      - ./app:/mnt/app
+    networks:
+      - panel
+  php:
+    container_name: php
+    image: rogolezhou/php74-fpm:panel
+    volumes:
+      - ./app:/mnt/app
+      - /etc/localtime:/etc/localtime
+    networks:
+      - panel
+    tty: true
+  db:
+    container_name: db
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - panel
+    volumes:
+      - ./db:/var/lib/mysql
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    networks:
+      - panel
+    environment:
+      PMA_HOST: "db"
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
