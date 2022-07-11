@@ -4,7 +4,7 @@ networks:
 services:
   web:
     container_name: web
-    image: rogolezhou/nginx1215
+    image: nginx
     ports:
       - "${app}:80"
       - "${php}:81"
@@ -29,23 +29,18 @@ services:
   db:
     container_name: db
     image: mariadb:10.6
+    secrets:
+      - mysql_password
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+      - MYSQL_USER=panel
+      - MYSQL_DATABASE=panel
     networks:
       - panel
     volumes:
+      - ./services/sql:/docker-entrypoint-initdb.d
       - ./db:/var/lib/mysql
-  phpmyadmin:
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - "8081:80"
-    networks:
-      - panel
-    environment:
-      PMA_HOST: "db"
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD}
+secrets:
+  mysql_password:
+    file: .DBsecrets
