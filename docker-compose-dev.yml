@@ -42,6 +42,7 @@ services:
     networks:
       - panel
     volumes:
+      - ./services/sql:/docker-entrypoint-initdb.d
       - ./db:/var/lib/mysql
   phpmyadmin:
     container_name: phpmyadmin
@@ -58,4 +59,4 @@ services:
       - PMA_PASSWORD_FILE=/run/secrets/mysql_password
 secrets:
   mysql_password:
-    file: panelpass
+    file: .DBsecrets
