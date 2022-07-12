@@ -22,7 +22,9 @@ services:
       - panel
   php:
     container_name: php
-    image: rogolezhou/php74-fpm:panel
+    build:
+      context: ./services/php
+      dockerfile: Dockerfile
     volumes:
       - rogole-unison-sync:/mnt/app:nocopy
       - /etc/localtime:/etc/localtime
