@@ -24,7 +24,7 @@ vi services/nginx/app.conf
 # 设置数据库密码
 mariadb的root用户采用随机密码启动容器，需要查看root密码，请在容器启动后，查看启动日志
 
-用户数据库采用'secrets'文件导入
+用户数据库密码采用'secrets'文件导入
 
 ```
 touch .DBsecrets
